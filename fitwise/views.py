@@ -88,4 +88,30 @@ class FoodLogRetrieveUpdateDeleteView(APIView):
 
         serializer_instance = FoodLogSerializer(instance)
 
-        return Response(data=serializer_instance.data)        
+        return Response(data=serializer_instance.data)
+
+    def put(self,request,pk=None):
+
+        instance = get_object_or_404(FoodLog,id=pk)
+
+        form_data = request.data 
+
+        serializer_instance = FoodLogSerializer(data=form_data,instance=instance)
+
+        if serializer_instance.is_valid():
+
+            serializer_instance.save()
+
+            return Response(data= serializer_instance.data)
+
+        else:
+
+            return Response(data= serializer_instance.errors)
+
+    def delete(self,request,pk=None):
+
+        instance = get_object_or_404(FoodLog,id=pk)
+
+        instance.delete()
+
+        return Response(data={"message":"FoodLog deleted..."})     

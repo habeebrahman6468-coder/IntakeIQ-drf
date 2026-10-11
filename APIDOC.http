@@ -35,16 +35,41 @@ POST http://127.0.0.1:8000/fitwise/foodlogs/
 Content-Type: application/json
 Authorization: Basic User1:User@123
 
-  {
-    "title": "Idli",
-    "calorie": 120,
-    "meal_type": "BREAKFAST",
-    "serving_size": "2 medium idlis",
-    "date": "2026-10-11"
-  }
+{
+  "title": "Chicken Biriyani",
+  "calorie": 650,
+  "meal_type": "LUNCH",
+  "serving_size": "1 plate",
+  "date": "2026-10-11"
+}
 
 #api call for fetching a foodlog
 ###
 GET http://127.0.0.1:8000/fitwise/foodlogs/2/
+Accept: application/json
+Authorization: Basic User1:User@123
+
+
+#api call for updating a foodlog
+###
+PUT http://127.0.0.1:8000/fitwise/foodlogs/1/
+Content-Type: application/json
+Authorization: Basic User1:User@123
+
+{
+  "id": 3,
+  "title": "Chicken Biriyani",
+  "calorie": 650,
+  "meal_type": "DINNER",
+  "serving_size": "1 plate",
+  "created_at": "2026-10-11T13:43:43.221831Z",
+  "updated_at": "2026-10-11T13:43:43.221871Z",
+  "date": "2026-10-11",
+  "owner": 2
+}
+#api call for deleting a foodlog 
+
+###
+DELETE http://127.0.0.1:8000/fitwise/foodlogs/2/
 Accept: application/json
 Authorization: Basic User1:User@123
