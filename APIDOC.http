@@ -1,0 +1,50 @@
+# =========== User Endpoints ==========
+
+#API call for Registering a user
+
+###
+POST  http://127.0.0.1:8000/fitwise/signup/
+Content-Type: application/json
+
+{
+
+    "username":"User1",
+    "email":"User@gmail.com",
+    "password":"User@123"
+}
+
+#api call for listing the user 
+
+###
+GET http://127.0.0.1:8000/fitwise/me/
+Accept: application/json
+Authorization: Basic User1:User@123
+
+# =========  foodlogs endpoints ==========
+
+#api call for listing the foodlogs of user1
+###
+GET http://127.0.0.1:8000/fitwise/foodlogs/
+Accept: application/json
+Authorization: Basic Eugene:Eugene@123
+
+#api call for creating a foodlog 
+
+###
+POST http://127.0.0.1:8000/fitwise/foodlogs/
+Content-Type: application/json
+Authorization: Basic User1:User@123
+
+  {
+    "title": "Idli",
+    "calorie": 120,
+    "meal_type": "BREAKFAST",
+    "serving_size": "2 medium idlis",
+    "date": "2026-10-11"
+  }
+
+#api call for fetching a foodlog
+###
+GET http://127.0.0.1:8000/fitwise/foodlogs/2/
+Accept: application/json
+Authorization: Basic User1:User@123
