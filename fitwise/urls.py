@@ -1,6 +1,7 @@
 from django.urls import path
 from fitwise.views import SignUpView,GetMeView
 from fitwise.views import FoodLogListCreate,FoodLogRetrieveUpdateDeleteView
+from rest_framework.authtoken.views import ObtainAuthToken
 
 urlpatterns = [
 
@@ -8,4 +9,5 @@ urlpatterns = [
     path('me/',GetMeView.as_view()),
     path('foodlogs/',FoodLogListCreate.as_view()),
     path('foodlogs/<int:pk>/',FoodLogRetrieveUpdateDeleteView.as_view()),
+    path('token/',ObtainAuthToken.as_view()),
 ]

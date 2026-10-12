@@ -6,6 +6,7 @@ from rest_framework import authentication,permissions
 from rest_framework.response import Response
 from fitwise.serializers import UserSerializer,FoodLogSerializer
 from fitwise.models import FoodLog
+from fitwise.permissions import IsOwner
 
 
 # Create your views here.
@@ -36,7 +37,8 @@ class SignUpView(APIView):
 
 class GetMeView(APIView):
 
-    authentication_classes = [authentication.BasicAuthentication]
+    authentication_classes = [authentication.TokenAuthentication]
+
     permission_classes=[permissions.IsAuthenticated]
 
     def get(self,request):
@@ -51,7 +53,7 @@ class GetMeView(APIView):
 
 class FoodLogListCreate(APIView):
 
-    authentication_classes =[ authentication.BasicAuthentication]
+    authentication_classes =[ authentication.TokenAuthentication]
 
     permission_classes=[permissions.IsAuthenticated]
 
@@ -82,9 +84,15 @@ class FoodLogListCreate(APIView):
 
 class FoodLogRetrieveUpdateDeleteView(APIView):
 
+    authentication_classes = [authentication.TokenAuthentication]
+
+    permission_classes = [IsOwner]
+
     def get(self,request,pk=None):
 
         instance = get_object_or_404(FoodLog,id=pk)
+
+        self.check_object_permissions(request,instance)
 
         serializer_instance = FoodLogSerializer(instance)
 
@@ -93,6 +101,8 @@ class FoodLogRetrieveUpdateDeleteView(APIView):
     def put(self,request,pk=None):
 
         instance = get_object_or_404(FoodLog,id=pk)
+
+        self.check_object_permissions(request,instance)
 
         form_data = request.data 
 
@@ -111,6 +121,8 @@ class FoodLogRetrieveUpdateDeleteView(APIView):
     def delete(self,request,pk=None):
 
         instance = get_object_or_404(FoodLog,id=pk)
+
+        self.check_object_permissions(request,instance)
 
         instance.delete()
 

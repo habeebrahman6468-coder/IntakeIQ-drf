@@ -8,9 +8,21 @@ Content-Type: application/json
 
 {
 
-    "username":"User1",
-    "email":"User@gmail.com",
-    "password":"User@123"
+    "username":"Eugene",
+    "email":"Eugene@gmail.com",
+    "password":"Eugene@123"
+}
+
+#api call for creating a token 
+
+###
+POST http://127.0.0.1:8000/fitwise/token/
+Content-Type: application/json
+
+{
+    "username":"Eugene",
+    "password":"Eugene@123"
+
 }
 
 #api call for listing the user 
@@ -18,7 +30,7 @@ Content-Type: application/json
 ###
 GET http://127.0.0.1:8000/fitwise/me/
 Accept: application/json
-Authorization: Basic User1:User@123
+Authorization: Token 2be34ff377828504ae50cb9349f4cc555971b440
 
 # =========  foodlogs endpoints ==========
 
@@ -26,14 +38,14 @@ Authorization: Basic User1:User@123
 ###
 GET http://127.0.0.1:8000/fitwise/foodlogs/
 Accept: application/json
-Authorization: Basic Eugene:Eugene@123
+Authorization: Token 2be34ff377828504ae50cb9349f4cc555971b440
 
 #api call for creating a foodlog 
 
 ###
 POST http://127.0.0.1:8000/fitwise/foodlogs/
 Content-Type: application/json
-Authorization: Basic User1:User@123
+Authorization: Token 2be34ff377828504ae50cb9349f4cc555971b440
 
 {
   "title": "Chicken Biriyani",
@@ -47,14 +59,14 @@ Authorization: Basic User1:User@123
 ###
 GET http://127.0.0.1:8000/fitwise/foodlogs/2/
 Accept: application/json
-Authorization: Basic User1:User@123
+Authorization: Token 2be34ff377828504ae50cb9349f4cc555971b440
 
 
 #api call for updating a foodlog
 ###
 PUT http://127.0.0.1:8000/fitwise/foodlogs/1/
 Content-Type: application/json
-Authorization: Basic User1:User@123
+Authorization: Token 2be34ff377828504ae50cb9349f4cc555971b440"
 
 {
   "id": 3,
@@ -67,9 +79,10 @@ Authorization: Basic User1:User@123
   "date": "2026-10-11",
   "owner": 2
 }
+
 #api call for deleting a foodlog 
 
 ###
 DELETE http://127.0.0.1:8000/fitwise/foodlogs/2/
 Accept: application/json
-Authorization: Basic User1:User@123
+Authorization: Token 2be34ff377828504ae50cb9349f4cc555971b440"
