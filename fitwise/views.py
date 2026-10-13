@@ -1,12 +1,16 @@
 from django.shortcuts import render,get_object_or_404
 from django.contrib.auth.models import User
+from django.db.models import Sum
 
 from rest_framework.views import APIView
 from rest_framework import authentication,permissions
 from rest_framework.response import Response
+
 from fitwise.serializers import UserSerializer,FoodLogSerializer
 from fitwise.models import FoodLog
 from fitwise.permissions import IsOwner
+
+from datetime import datetime
 
 
 # Create your views here.
@@ -126,4 +130,105 @@ class FoodLogRetrieveUpdateDeleteView(APIView):
 
         instance.delete()
 
-        return Response(data={"message":"FoodLog deleted..."})     
+        return Response(data={"message":"FoodLog deleted..."})
+
+class FoodLogSummaryView(APIView):
+
+    authentication_classes =[authentication.TokenAuthentication]
+
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self,request):
+
+        response_data ={
+            "today_total_calories":0
+        }
+
+        cur_date = datetime.now().date()
+
+        cur_month = datetime.now().month
+
+        cur_year = datetime.now().year
+
+        #monthly transactions
+
+        monthly_mealtypes = FoodLog.objects.filter(owner=request.user,created_at__month=cur_month,created_at__year=cur_year)
+
+        if monthly_mealtypes:
+            
+            monthly_total_calories=monthly_mealtypes.values("calorie").aggregate(total=Sum("calorie")).get("total")
+
+            response_data["monthly_total_calories"]=monthly_total_calories
+
+            #todays_calorie_summary
+
+        todays_mealtype=FoodLog.objects.filter(owner=request.user,created_at__date=cur_date)
+
+        if todays_mealtype:
+
+            today_total_calories = todays_mealtype.values("calorie").aggregate(total=Sum("calorie")).get("total")
+
+            # todays_category_summary
+
+            category_summary = todays_mealtype.values("meal_type").annotate(total=Sum("calorie"))
+
+            response_data["category_summary"]=category_summary
+
+            response_data["today_total_calories"]=today_total_calories
+
+        return Response(data=response_data)
+
+    
+
+
+    
+"""
+class ExpenseSummaryView(APIView):
+    
+    authentication_classes = [authentication.TokenAuthentication]
+    
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self,request):
+
+        response_data ={
+            "today_total":0
+        }
+
+        cur_date =datetime.now().date()
+
+        cur_month = datetime.now().month
+
+        cur_year = datetime.now().year
+
+        #monthly summary
+
+        monthly_transactions = Expense.objects.filter(owner=request.user,created_at__month=cur_month,created_at__year=cur_year)
+
+        if monthly_transactions:
+
+            monthly_total = monthly_transactions.values("amount").aggregate(total=Sum("amount")).get("total")
+
+            response_data["monthly_total"]=monthly_total
+
+
+        today_transactions = Expense.objects.filter(owner=request.user,created_at__date=cur_date)
+
+        if today_transactions:
+
+            today_total = today_transactions.values("amount").aggregate(total=Sum("amount")).get("total")
+
+
+
+            # today category summary
+
+            category_summary = today_transactions.values("category").annotate(total=Sum("amount"))
+
+
+            response_data["today_total"]=today_total
+
+            response_data["category_summary"]=category_summary
+
+        return Response(data=response_data)
+
+        """  

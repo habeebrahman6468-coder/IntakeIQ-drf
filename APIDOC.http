@@ -20,8 +20,8 @@ POST http://127.0.0.1:8000/fitwise/token/
 Content-Type: application/json
 
 {
-    "username":"Eugene",
-    "password":"Eugene@123"
+    "username":"User1",
+    "password":"User@123"
 
 }
 
@@ -38,21 +38,21 @@ Authorization: Token 2be34ff377828504ae50cb9349f4cc555971b440
 ###
 GET http://127.0.0.1:8000/fitwise/foodlogs/
 Accept: application/json
-Authorization: Token 2be34ff377828504ae50cb9349f4cc555971b440
+Authorization: Token da31b172df18bbe6dbe7dd36b3cb109a8124fdb8 
 
 #api call for creating a foodlog 
 
 ###
 POST http://127.0.0.1:8000/fitwise/foodlogs/
 Content-Type: application/json
-Authorization: Token 2be34ff377828504ae50cb9349f4cc555971b440
+Authorization: Token da31b172df18bbe6dbe7dd36b3cb109a8124fdb8 
 
 {
-  "title": "Chicken Biriyani",
-  "calorie": 650,
-  "meal_type": "LUNCH",
-  "serving_size": "1 plate",
-  "date": "2026-10-11"
+  "title": "Masala Dosa",
+  "calorie": 350,
+  "meal_type": "BREAKFAST",
+  "serving_size": "2 medium dosas",
+  "date": "2026-10-13"
 }
 
 #api call for fetching a foodlog
@@ -85,4 +85,11 @@ Authorization: Token 2be34ff377828504ae50cb9349f4cc555971b440"
 ###
 DELETE http://127.0.0.1:8000/fitwise/foodlogs/2/
 Accept: application/json
-Authorization: Token 2be34ff377828504ae50cb9349f4cc555971b440"
+Authorization: Token 2be34ff377828504ae50cb9349f4cc555971b440
+
+#API call for listing summary 
+
+###
+GET http://127.0.0.1:8000/fitwise/foodlogs/summary/ 
+Accept: application/json
+Authorization: Token da31b172df18bbe6dbe7dd36b3cb109a8124fdb8 
