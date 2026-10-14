@@ -90,6 +90,6 @@ Authorization: Token 2be34ff377828504ae50cb9349f4cc555971b440
 #API call for listing summary 
 
 ###
-GET http://127.0.0.1:8000/fitwise/foodlogs/summary/ 
+GET http://127.0.0.1:8000/fitwise/dietplan/ 
 Accept: application/json
 Authorization: Token da31b172df18bbe6dbe7dd36b3cb109a8124fdb8 

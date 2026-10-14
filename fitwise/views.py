@@ -178,7 +178,40 @@ class FoodLogSummaryView(APIView):
 
         return Response(data=response_data)
 
-    
+
+class DietPlanView(APIView):
+
+    authentication_classes=[authentication.TokenAuthentication]
+
+    permission_classes=[permissions.IsAuthenticated]
+
+    def get(self,request):
+
+        cur_month = datetime.now().month
+
+        cur_year = datetime.now().year
+
+        response_data={
+            "monthly_total_calorie":0
+        }
+
+        monthly_food_entries = FoodLog.objects.filter(owner=request.user,created_at__month=cur_month,created_at__year=cur_year)
+
+        if monthly_food_entries:
+
+            total_calorie = monthly_food_entries.values("meal_type").aggregate(total=Sum("calorie"))
+
+            mealtype_summary = monthly_food_entries.values("meal_type").annotate(total=Sum("calorie"))
+
+            response_data["total_calorie"]=total_calorie
+
+            response_data["mealtype_summary"]=mealtype_summary
+
+        return Response(data=response_data)    
+
+
+
+
 
 
   
